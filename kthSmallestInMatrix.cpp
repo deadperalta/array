@@ -1,54 +1,72 @@
-int lessThan(vector<vector<int>>&mat,int mid)
+//{ Driver Code Starts
+// kth largest element in a 2d array sorted row-wise and column-wise
+#include<bits/stdc++.h>
+using namespace std;
+#define MAX 1000
+int mat[MAX][MAX];
+int kthSmallest(int mat[MAX][MAX], int n, int k);
+// driver program to test above function
+int main()
 {
-  int less=0;
-  
-  for(int i=0;i<mat.size();i++)
-  {
-    if(mat[i][0] < mid)
+    int t;
+    cin>>t;
+    while(t--)
     {
-      break;
+        int n;
+        cin>>n;
+    
+        for(int i=0;i<n;i++)
+            for(int j=0;j<n;j++)
+                cin>>mat[i][j];
+        int r;
+        cin>>r;
+        cout<<kthSmallest(mat,n,r)<<endl;
     }
-    if(mat[i][mat[0].size()-1] <= mid)
-    {
-      less+=mat[0].size();
-      continue;
-    }
-    else
-    {
-      for(int j=0;j<mat[0].size();j++)
-      {
-        if(mat[i][j] > mid)
+     // cout << "7th smallest element is " << kthSmallest(mat, 4, 7);
+      return 0;
+}
+
+// } Driver Code Ends
+
+
+int lessThan(int mat[MAX][MAX],int mid,int n)
+{
+        int count=0;
+        int c=n-1;
+        
+        for(int i=0;i<n;i++)
         {
-          less+=i+1;
-          break;
+            while(c >= 0 && mat[i][c] > mid)
+            {
+                c--;
+            }
+            count+=c+1;
+        }
+        
+        return count;
+}
+int kthSmallest(int mat[MAX][MAX], int n, int k)
+{
+      //int m=mat.size(),n=mat[0].size();
+
+      int low=mat[0][0];
+      int high=mat[n-1][n-1];
+    
+      int ans;
+    
+      while(low <= high)
+      {
+        int mid=low+((high-low)>>1);
+    
+        if(lessThan(mat,mid,n) >= k)
+        {
+          ans=mid;
+          high=mid-1;
+        }
+        else
+        {
+          low=mid+1;
         }
       }
-    }
-  }
-  return less+1;
-}
-int kthSmallestInMatrix(vector<vector<int>>&mat,int k)
-{
-  int m=mat.size(),n=mat[0].size();
-  
-  int low=mat[0][0];
-  int high=mat[m-1][n-1];
-  
-  int ans;
-  
-  while(low <= high)
-  {
-    int mid=low+((high-low)>>1);
-    
-    if(lessThan(mat,mid) >= k)
-    {
-      ans=mid;
-      high=mid-1;
-    }
-    else
-    {
-      low=mid+1;
-    }
-  }
-  return ans;
+      return ans;
 }
