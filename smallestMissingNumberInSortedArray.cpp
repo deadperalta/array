@@ -11,14 +11,14 @@ int smallestMissing(vector<int>arr)
   {
     int mid=low+((high-low)>>1);
     
-    if(arr[mid] != mid)
+    if(arr[mid] == mid)
     {
-      ans=mid;
-      high=mid-1;
+       low=mid+1;
     }
     else
     {
-      high=mid+1;
+      ans=mid;
+      high=mid-1;
     }
   }
   return ans;
